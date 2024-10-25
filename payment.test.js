@@ -107,6 +107,7 @@ describe('Payment API', () => {
       payment_status: 'pending',
       transaction_id: 'test_transaction_id',
       email: 'test@example.com',
+      stripe_payment_intent_id: 'test_intent_id'
     });
 
     console.log('Created payment:', payment); // Add this line for debugging
@@ -150,6 +151,7 @@ describe('Payment API', () => {
       payment_status: 'pending',
       transaction_id: 'test_transaction_id',
       email: 'test@example.com',
+      stripe_payment_intent_id: 'test_intent_id' // Add this line
     });
 
     const UPDATE_PAYMENT_STATUS = gql`

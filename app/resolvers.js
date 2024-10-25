@@ -18,7 +18,13 @@ const resolvers = {
     art: async (_, { id }) => await Art.findOne({ art_id: id }),
     userRoles: async () => await UserRole.find(),
     userRole: async (_, { userId, roleId }) => await UserRole.findOne({ user_id: userId, role_id: roleId }),
-    getPayment: async (_, { id }) => await Payment.findOne({ payment_id: id }),
+    getPayment: async (_, { id }) => {
+      const payment = await Payment.findOne({ payment_id: id });
+      if (!payment) {
+        console.log(`Payment with id ${id} not found`);
+      }
+      return payment;
+    },
     // Add more queries
   },
   Mutation: {
@@ -95,7 +101,7 @@ const resolvers = {
         payment_method,
         payment_status: 'pending',
         transaction_id: paymentIntent.id,
-        stripe_payment_intent_id: paymentIntent.id,
+        stripe_payment_intent_id: paymentIntent.id, // This line is important
         email,
       });
 
@@ -111,7 +117,11 @@ const resolvers = {
       if (!updatedPayment) {
         throw new Error(`Payment with id ${id} not found`);
       }
-      return updatedPayment;
+      return {
+        order_id: updatedPayment.order_id,
+        payment_status: updatedPayment.payment_status,
+        stripe_payment_intent_id: updatedPayment.stripe_payment_intent_id
+      };
     },
     createPaymentIntent: async (_, { amount, email }, { stripe }) => {
       try {

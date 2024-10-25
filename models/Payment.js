@@ -48,6 +48,10 @@ const PaymentSchema = new mongoose.Schema({
     event_date: String,
     event_venue: String,
     event_time: String,
+    stripe_payment_intent_id: {
+        type: String,
+        required: true,
+    },
 });
 
 PaymentSchema.plugin(AutoIncrement, { inc_field: 'payment_id' });

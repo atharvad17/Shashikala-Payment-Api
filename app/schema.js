@@ -136,6 +136,7 @@ const typeDefs = gql`
     transaction_id: String
     payment_date: String
     email: String!
+    stripe_payment_intent_id: String!
   }
 
   type PaymentIntent {
